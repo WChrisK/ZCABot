@@ -149,7 +149,7 @@ namespace ZCABot
                 HandleAddRole(tokens, msg);
                 break;
             case "CRASH":
-                Log($"{msg.Author.Username} INVOKING CRASH");
+                Log($"{msg.Author.Username} invoking bot crash...");
                 if (IsManager(msg.Author))
                     Environment.Exit(1);
                 break;
