@@ -15,6 +15,7 @@ namespace ZCABot
         private const long GuildID = 480611202679177216;
         private const ulong ManagerRoleID = 480909038108934195;
         private const ulong StaffRoleID = 480911020827869194;
+        private static readonly string[] JoinRoleNames = { "TeamGame", "Practice", "Duel" };
 
         private readonly DiscordSocketClient client;
 
@@ -46,8 +47,6 @@ namespace ZCABot
         private bool IsManager(SocketUser user) => HasRole(user, ManagerRoleID);
 
         private bool IsStaff(SocketUser user) => HasRole(user, StaffRoleID);
-
-        private IEnumerable<IRole> JoinRoles => Guild.Roles;
 
         private void LogToDebugChannel(string message) => LogToChannel(DebugChannelName, message);
 
@@ -97,6 +96,21 @@ namespace ZCABot
             return Task.CompletedTask;
         }
 
+        private IEnumerable<IRole> GetJoinRoles()
+        {
+            List<IRole> roles = new List<IRole>();
+            foreach (string roleName in JoinRoleNames)
+            {
+                IRole? role = FindRoleFromName(roleName);
+                if (role != null)
+                    roles.Add(role);
+                else
+                    Log($"ERROR: Failed to find join role {roleName}");
+            }
+
+            return roles;
+        }
+
         private async Task UserJoinedAsync(SocketGuildUser user)
         {
             await GiveJoinRoles(user);
@@ -125,7 +139,7 @@ namespace ZCABot
             switch (tokens[0].Substring(1).ToUpper())
             {
             case "HIGHLIGHT":
-                HandleHighlight(tokens, msg.Author, channel);
+                HandleHighlight(tokens, msg, msg.Author, channel);
                 break;
             }
         }

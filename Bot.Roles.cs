@@ -65,7 +65,7 @@ namespace ZCABot
 
         private async Task GiveJoinRoles(SocketGuildUser user)
         {
-            foreach (IRole role in JoinRoles)
+            foreach (IRole role in GetJoinRoles())
             {
                 Log($"Adding role {role} to {user}");
                 await user.AddRoleAsync(role);

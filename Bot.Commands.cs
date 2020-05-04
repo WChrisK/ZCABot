@@ -125,7 +125,7 @@ namespace ZCABot
             channel.SendMessageAsync($"Role {role.Name} updated.");
         }
 
-        private void HandleHighlight(List<string> tokens, SocketUser sender, ITextChannel channel)
+        private void HandleHighlight(List<string> tokens, SocketMessage msg, SocketUser sender, ITextChannel channel)
         {
             Log($"Highlight requested in channel {channel} ({string.Join(" ", tokens)})");
 
@@ -163,6 +163,7 @@ namespace ZCABot
 
             string message = string.Join(" ", tokens.Skip(2));
 
+            msg.DeleteAsync().Wait();
             role.ModifyAsync(prop => { prop.Mentionable = true; }).Wait();
             HighlightTime = DateTime.Now;
             channel.SendMessageAsync($"{role.Mention} (from {sender.Username}): {message}").Wait();
