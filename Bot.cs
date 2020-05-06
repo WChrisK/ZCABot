@@ -80,13 +80,14 @@ namespace ZCABot
 
         private Task LogAsync(LogMessage msg)
         {
-            Log($">>> {msg.Message}");
+            Console.WriteLine($">>> {msg.Message}");
             return Task.CompletedTask;
         }
 
         private Task ReadyAsync()
         {
             Log("Bot online and listening for commands!");
+            StartEventLoopThread();
             return Task.CompletedTask;
         }
 

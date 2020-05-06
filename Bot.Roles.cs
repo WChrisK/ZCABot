@@ -137,15 +137,13 @@ namespace ZCABot
                 return;
             }
 
-            Log($"Applying temporary role {role.Name} to {user.Username}");
+            Log($"Applying temporary role {role.Name} to {user.Username} (done by {msg.Author.Username})");
             user.AddRoleAsync(role).Wait();
 
-            // We are ignoring the task so it runs in the background.
-            RunDelayedTask(milliseconds, () =>
-            {
-                Log($"Removing temporary role {role.Name} from {user.Username}");
-                user.RemoveRoleAsync(role);
-            });
+            DateTime removalDateTime = DateTime.Now.AddMilliseconds(milliseconds);
+            AddRoleTimeout(user, role, removalDateTime);
+
+            msg.Author.SendMessageAsync($"Applied temporary role {role.Name} to {user.Username}").Wait();
         }
     }
 }

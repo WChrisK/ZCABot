@@ -5,6 +5,7 @@
 
 .idea/
 .auth
+timeout.txt
 
 # User-specific files
 *.rsuser

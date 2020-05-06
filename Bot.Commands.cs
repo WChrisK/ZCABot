@@ -49,7 +49,7 @@ namespace ZCABot
             new[]
             {
                 "giveRole [name] [role] [amount] [min(s)/hour(s)/day(s)]",
-                "Gives a role to a user for some period of time. Time must be mins/hours/days (ex: `.giveRole SomeTeam Zakken 30 mins`, or `.giveRole water muted 1 day`)"
+                "Gives a role to a user for some period of time. Time must be mins/hours/days (ex: `.giveRole Zakken SomeTeam 30 mins`, or `.giveRole water muted 1 day`)"
             }
         };
 
