@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Discord;
 
@@ -100,7 +101,7 @@ namespace ZCABot
         {
             List<RoleTimeout> timeoutsToRemove = new List<RoleTimeout>();
 
-            foreach (RoleTimeout roleTimeout in roleTimeouts)
+            foreach (RoleTimeout roleTimeout in roleTimeouts.ToList())
             {
                 if (roleTimeout.Expiration >= DateTime.Now)
                     continue;
