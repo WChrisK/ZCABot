@@ -27,8 +27,14 @@ namespace ZCABot
             {
                 while (continueEventLoopThread)
                 {
-                    CheckRollTimeouts();
-                    Thread.Sleep(eventLoopPulseMilliseconds);
+                    try
+                    {
+                        CheckRollTimeouts();
+                    }
+                    finally
+                    {
+                        Thread.Sleep(eventLoopPulseMilliseconds);
+                    }
                 }
             });
 
