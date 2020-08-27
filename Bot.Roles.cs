@@ -11,12 +11,6 @@ namespace ZCABot
     {
         private const string StaffTrackerChannel = "staff-role-tracker";
 
-        private async Task RunDelayedTask(int milliseconds, Action func)
-        {
-            await Task.Delay(milliseconds);
-            func();
-        }
-
         private IGuildUser? FindUserByDisplayNameOrUsername(string name)
         {
             string lowerName = name.ToLower();

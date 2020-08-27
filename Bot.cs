@@ -29,6 +29,7 @@ namespace ZCABot
             client.Ready += ReadyAsync;
             client.MessageReceived += MessageReceivedAsync;
             client.UserJoined += UserJoinedAsync;
+            client.UserLeft += UserLeftAsync;
             client.GuildMemberUpdated += GuildMemberUpdatedAsync;
         }
 
@@ -59,6 +60,8 @@ namespace ZCABot
             if (channel == null)
                 return;
 
+            // This technically should fail, I don't see an inheritance relation?
+            // Guild.GetChannelsAsync(channelName).SendMessageAsync(message).Wait()?
             ITextChannel? textChannel = (ITextChannel)channel;
             if (textChannel == null)
                 return;
@@ -112,9 +115,31 @@ namespace ZCABot
             return roles;
         }
 
+        private static bool IsNewAccount(ulong snowflake)
+        {
+            long unixTimestamp = (long)((snowflake >> 22) + 1420070400000);
+            DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(unixTimestamp);
+            DateTime dateTime = dateTimeOffset.UtcDateTime;
+            TimeSpan timeSinceJoin = (DateTime.Now - dateTime);
+
+            return timeSinceJoin.Days < 7;
+        }
+
         private async Task UserJoinedAsync(SocketGuildUser user)
         {
-            await GiveJoinRoles(user);
+            if (IsNewAccount(user.Id))
+            {
+                LogToDebugChannel($"Banning newly created user: {user.Username}");
+                await user.BanAsync();
+            }
+            else
+                await GiveJoinRoles(user);
+        }
+
+        private Task UserLeftAsync(SocketGuildUser user)
+        {
+            LogToChannel(StaffTrackerChannel, $"{user.Username} left the server");
+            return Task.CompletedTask;
         }
 
         private IRole? FindRoleFromName(string name)
