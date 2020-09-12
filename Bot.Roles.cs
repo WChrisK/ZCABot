@@ -69,8 +69,10 @@ namespace ZCABot
             await user.SendMessageAsync(WelcomeMessage);
         }
 
-        private void GiveTemporaryRole(List<string> tokens, SocketMessage msg)
+        private void GiveTemporaryRole(SocketMessage msg)
         {
+            IList<string> tokens = msg.Content.SplitQuoted();
+
             Log($"{msg.Author} giving temporary role ({string.Join(" ", tokens)})");
 
             if (tokens.Count < 5)
@@ -107,24 +109,24 @@ namespace ZCABot
                 return;
             }
 
-            int milliseconds;
+            int minutes;
             switch (tokens[4].ToUpper())
             {
             case "MIN":
             case "MINS":
             case "MINUTE":
             case "MINUTES":
-                milliseconds = 1000 * 60 * timeAmount;
+                minutes = timeAmount;
                 break;
             case "HR":
             case "HRS":
             case "HOUR":
             case "HOURS":
-                milliseconds = 1000 * 60 * 60 * timeAmount;
+                minutes = 60 * timeAmount;
                 break;
             case "DAY":
             case "DAYS":
-                milliseconds = 1000 * 60 * 60 * 24 * timeAmount;
+                minutes = 60 * 24 * timeAmount;
                 break;
             default:
                 msg.Author.SendMessageAsync("Your time is an unknown type (should be min(s)/hour(s)/day(s)). Send `.help` to the bot to see how to use this.");
@@ -134,7 +136,7 @@ namespace ZCABot
             Log($"Applying temporary role {role.Name} to {user.Username} (done by {msg.Author.Username})");
             user.AddRoleAsync(role).Wait();
 
-            DateTime removalDateTime = DateTime.Now.AddMilliseconds(milliseconds);
+            DateTime removalDateTime = DateTime.Now.AddMinutes(minutes);
             AddRoleTimeout(user, role, removalDateTime);
 
             msg.Author.SendMessageAsync($"Applied temporary role {role.Name} to {user.Username}").Wait();

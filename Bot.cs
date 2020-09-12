@@ -195,7 +195,7 @@ namespace ZCABot
                 break;
             case "GIVEROLE":
                 if (IsStaffOrManager(msg.Author))
-                    GiveTemporaryRole(tokens, msg);
+                    GiveTemporaryRole(msg);
                 break;
             case "HELP":
                 HandleHelpRequest(tokens, msg, channel);
