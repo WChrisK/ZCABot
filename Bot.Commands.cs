@@ -64,8 +64,6 @@ namespace ZCABot
 
         private DateTime HighlightTime;
 
-        private bool IsAdmin(SocketUser user) => AdminRoleIDs.Contains(user.Id);
-
         private bool CanHighlight(out TimeSpan timeUntil)
         {
             DateTime next = HighlightTime.AddMinutes(MinutesBetweenHighlights);

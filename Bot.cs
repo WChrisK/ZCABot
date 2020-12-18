@@ -18,7 +18,7 @@ namespace ZCABot
         private const ulong ManagerRoleID = 480909038108934195;
         private const ulong StaffRoleID = 480911020827869194;
         private static readonly string[] JoinRoleNames = { "TeamGame", "Practice", "Duel", "Activation pending" };
-        private static Regex UnknownCommandRegex = new Regex(@"\.\w\w.+");
+        private static readonly Regex UnknownCommandRegex = new Regex(@"\.\w\w.+");
 
         private readonly DiscordSocketClient client;
 
@@ -26,7 +26,8 @@ namespace ZCABot
 
         public Bot()
         {
-            client = new DiscordSocketClient();
+            DiscordSocketConfig config = new DiscordSocketConfig { AlwaysDownloadUsers = true };
+            client = new DiscordSocketClient(config);
 
             client.Log += LogAsync;
             client.Ready += ReadyAsync;

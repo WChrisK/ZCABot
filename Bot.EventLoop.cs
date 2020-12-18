@@ -29,7 +29,7 @@ namespace ZCABot
                 {
                     try
                     {
-                        CheckRollTimeouts();
+                        CheckRoleTimeouts();
                     }
                     finally
                     {
@@ -103,7 +103,7 @@ namespace ZCABot
             WriteRoleTimeouts();
         }
 
-        private void CheckRollTimeouts()
+        private void CheckRoleTimeouts()
         {
             List<RoleTimeout> timeoutsToRemove = new List<RoleTimeout>();
 
