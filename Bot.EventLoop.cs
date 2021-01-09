@@ -14,7 +14,6 @@ namespace ZCABot
 
         private volatile bool continueEventLoopThread;
         private readonly List<RoleTimeout> roleTimeouts = new List<RoleTimeout>();
-        private Thread? eventLoopThread;
 
         private void StartEventLoopThread()
         {
@@ -22,23 +21,17 @@ namespace ZCABot
             ReadTimeoutFile();
 
             continueEventLoopThread = true;
-
-            eventLoopThread = new Thread(() =>
+            while (continueEventLoopThread)
             {
-                while (continueEventLoopThread)
+                try
                 {
-                    try
-                    {
-                        CheckRoleTimeouts();
-                    }
-                    finally
-                    {
-                        Thread.Sleep(eventLoopPulseMilliseconds);
-                    }
+                    CheckRoleTimeouts();
                 }
-            });
-
-            eventLoopThread.Start();
+                finally
+                {
+                    Thread.Sleep(eventLoopPulseMilliseconds);
+                }
+            }
         }
 
         private void ReadTimeoutFile()
