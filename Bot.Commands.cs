@@ -10,7 +10,7 @@ namespace ZCABot
     public partial class Bot
     {
         private const ulong HighlightChannelID = 480611202679177218;
-        private const double MinutesBetweenHighlights = 15.0;
+        private const double MinutesBetweenHighlights = 30.0;
 
         private static readonly ulong[] JoinRoleIDs =
         {
