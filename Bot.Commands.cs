@@ -15,8 +15,7 @@ namespace ZCABot
         private static readonly ulong[] JoinRoleIDs =
         {
             616429614620868646,
-            559930385711104000,
-            559930515055050752
+            559930385711104000
         };
 
         private static readonly ulong[] AdminRoleIDs =
